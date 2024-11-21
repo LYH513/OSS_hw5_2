@@ -11,6 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+<<<<<<< HEAD
 
 .member{
   display: flex;
@@ -32,3 +33,5 @@ code {
   background-color: red;
   color: white;
 }
+=======
+>>>>>>> abab79d (Initialize project using Create React App)
