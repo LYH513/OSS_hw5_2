@@ -1,24 +1,65 @@
 import logo from './logo.svg';
 import './App.css';
+import {Route, Routes} from "react-router-dom"
+import List from './components/List';
+import Detail from './components/Detail';
+import Update from './components/Update';
+import { useState } from 'react';
 
 function App() {
+  const [mockData, setMockData] =useState([]);
+  const [mode, setMode] =useState('add');
+
+  const [modalInput, setModalInput] = useState({
+    name: "",
+    age: "",
+    job: "",
+    phoneNumber: ""
+  })
+
+  const [selectedData, setSelectedDate] = useState({
+    id: "",
+    name: "",
+    age: "",
+    job: "",
+    phoneNumber: ""
+  })
+
+  const [selectId, setSelectID] = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<List 
+      mockData ={mockData}
+      setMockData={setMockData}
+      mode={mode}
+      setMode={setMode}
+      modalInput={modalInput}
+      setModalInput={setModalInput}
+      selectId={selectId}
+      setSelectID={setSelectID}
+      setSelectedDate={setSelectedDate}
+      selectedData={selectedData}
+      />}></Route>
+      <Route path="/list" element={<List
+        mockData ={mockData}
+        setMockData={setMockData}
+        mode={mode}
+        setMode={setMode}
+        modalInput={modalInput}
+        setModalInput={setModalInput}
+        selectId={selectId}
+        setSelectID={setSelectID}
+        setSelectedDate={setSelectedDate}
+        selectedData={selectedData}
+      />}></Route>
+      <Route path="/detail" 
+      element={<Detail 
+        setSelectedDate={setSelectedDate}
+        selectedData={selectedData}
+        />}></Route>
+      <Route path="/update" element={<Update/>}></Route>
+    </Routes>
   );
 }
 

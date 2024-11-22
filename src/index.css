@@ -11,3 +11,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.member{
+  display: flex;
+  justify-content: space-between;
+  width: 1000px;
+  /* padding-bottom: 5px; */
+  padding: 5px;
+  border: 1px solid black;
+  align-items: center;
+  cursor: pointer;
+  &:hover{
+    background-color: lightgrey;
+  }
+}
+.btn1{
+  background-color: white;
+}
+.btn2{
+  background-color: red;
+  color: white;
+}
