@@ -1,7 +1,8 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Detail({selectedData, setSelectedDate}){
+function Detail({selectedData, setSelectedDate, server}){
 
   const navigate = useNavigate();
 
@@ -20,30 +21,17 @@ function Detail({selectedData, setSelectedDate}){
     });
   }
 
-  function deleteData(id){
-    const xhr = new XMLHttpRequest();
+  const deleteData = async(id)=>{
 
-    console.log("id 확인", id);
-    
-    xhr.open("DELETE", "https://672818e6270bd0b975545367.mockapi.io/api/v1/user/"+id);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send();
-
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        const res = JSON.parse(xhr.response); 
-        console.log(xhr.status, res);  
-        resetInput()
-        navigate('/list');
-
-      } else {
-        console.log("삭제 실패", xhr.status, xhr.statusText);
-      }
+    try{
+      const response = await axios.delete(`${server}/${id}`);
+      console.log(response.data)
+      resetInput()
+      navigate('/list');
     }
-    xhr.onerror = () => {
-      console.log("DELETE 요청 실패 - 네트워크 오류 발생");
-    };
-
+    catch(error){
+      console.error(error);
+    }
   }
 
   return(

@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -5,7 +6,8 @@ function Update({
   mode,
   modalInput,
   setModalInput,
-  selectId}
+  selectId,
+  server}
 ){
 
   const navigate = useNavigate();
@@ -28,35 +30,25 @@ function Update({
   }
 
   // 데이터를 서버에 추가하는 함수
-  function postData() {
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://672818e6270bd0b975545367.mockapi.io/api/v1/user");
-    xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
+  const postData = async()=> {
 
-    const data = modalInput;
-    xhr.send(JSON.stringify(data));
-    xhr.onload = () => {
-      if (xhr.status === 201) {
-        const res = JSON.parse(xhr.response);
-        // getStudents() ;
-        navigate('/list')
-      } else {
-        console.log(xhr.status, xhr.statusText);
-      }
-    };
+    try{
+      const response = await axios.post(`${server}`);
+      console.log(response.data);
+      navigate('/list');
+    }
+    catch(error){
+      console.error(error);
+    }
   }
 
   // 데이터 수정하는 함수
-  function updateData(id) {
-    const xhr = new XMLHttpRequest();
+  const updateData = async(id)=> {
 
     let name = document.getElementById("name");
     let age = document.getElementById("age");
     let job = document.getElementById("job");
     let phoneNumber = document.getElementById("phoneNumber");
-
-    xhr.open("PUT", "https://672818e6270bd0b975545367.mockapi.io/api/v1/user/" + id);
-    xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
 
     const data = { 
       name: name.value, 
@@ -65,18 +57,14 @@ function Update({
       phoneNumber: phoneNumber.value 
     };
 
-    xhr.send(JSON.stringify(data));
-
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        const res = JSON.parse(xhr.response);
-        console.log(res);
-        // getStudents();
-        resetInput();
-      } else {
-        console.log(xhr.status, xhr.statusText);
-      }
-    };
+    try{
+      const response = await axios.put(`${server}/${id}`, data);
+      console.log(response.data);
+      resetInput();
+    }
+    catch(error){
+      console.error(error);
+    }
   }
 
   return (

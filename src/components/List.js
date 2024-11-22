@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../index.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function List({      
   mockData,
@@ -9,27 +10,21 @@ function List({
   modalInput,
   setModalInput,
   setSelectID,
-  setSelectedDate}){
+  setSelectedDate,
+  server}){
 
   const navigate = useNavigate();
 
   // 학생 정보를 서버에서 가져오는 함수
-  function getStudents() {
-    console.log("눌림");
-    const xhr = new XMLHttpRequest();
+  const getStudents =async()=> {
 
-    xhr.open("GET", "https://672818e6270bd0b975545367.mockapi.io/api/v1/user");
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send();
-
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        const res = JSON.parse(xhr.response); 
-        console.log('데이터 확인', res);
-        setMockData(res);  
-      } else {
-        console.log(xhr.status, xhr.statusText); 
-      }
+    try{
+      const response = await axios.get(`${server}`);
+      console.log(response.data)
+      setMockData(response.data); 
+    }
+    catch(error){
+      console.error(error);
     }
   }
 
