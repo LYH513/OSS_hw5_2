@@ -5,14 +5,11 @@ import { useNavigate } from 'react-router-dom';
 function List({      
   mockData,
   setMockData,
-  mode,
   setMode,
   modalInput,
   setModalInput,
-  selectId,
   setSelectID,
-  setSelectedDate,
-  selectedData}){
+  setSelectedDate}){
 
   const navigate = useNavigate();
 
@@ -51,6 +48,8 @@ function List({
       job: job,
       phoneNumber: phoneNumber
     })
+
+    navigate('/update');
   }
 
   useEffect(()=>{
@@ -74,6 +73,10 @@ function List({
   const clickUpdate = (e, item) =>{
     e.stopPropagation();
     editChange(item);
+  }
+
+  const clickCreate = () =>{
+    setMode('add');
     navigate('/update');
   }
 
@@ -83,7 +86,7 @@ function List({
   {/* <button id="btnStu" className="btn btn-warning" onClick={getStudents}>회원 정보 가져오기</button> */}
   <button type="button" className="btn btn-primary"
   style={{marginBottom:"10px", marginLeft:"30px"}}
-  onClick={() => setMode('add')}>
+  onClick={clickCreate}>
   회원 CREATE
   </button>
 
