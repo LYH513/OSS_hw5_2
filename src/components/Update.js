@@ -32,8 +32,10 @@ function Update({
   // 데이터를 서버에 추가하는 함수
   const postData = async()=> {
 
+    const data = modalInput;
+
     try{
-      const response = await axios.post(`${server}`);
+      const response = await axios.post(`${server}`, data);
       console.log(response.data);
       navigate('/list');
     }
