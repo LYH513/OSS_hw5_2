@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Update({    
@@ -11,6 +11,7 @@ function Update({
 ){
 
   const navigate = useNavigate();
+  const ref = useRef(0);
 
   function resetInput(){
     setModalInput({
@@ -19,29 +20,6 @@ function Update({
       job: "",
       phoneNumber: ""
     });
-    navigate('/list')
-  }
-
-  const handleModalInput = (e) => {
-    setModalInput({
-      ...modalInput,
-      [e.target.name]: e.target.value
-    });
-  }
-
-  // 데이터를 서버에 추가하는 함수
-  const postData = async()=> {
-
-    const data = modalInput;
-
-    try{
-      const response = await axios.post(`${server}`, data);
-      console.log(response.data);
-      navigate('/list');
-    }
-    catch(error){
-      console.error(error);
-    }
   }
 
   // 데이터 수정하는 함수
@@ -62,17 +40,47 @@ function Update({
     try{
       const response = await axios.put(`${server}/${id}`, data);
       console.log(response.data);
-      resetInput();
+      // resetInput();
     }
     catch(error){
       console.error(error);
     }
   }
 
+  const handleModalInput = (e) => {
+    setModalInput({
+      ...modalInput,
+      [e.target.name]: e.target.value
+    });
+    updateData(selectId)
+    ref.current = ref.current+1;
+  }
+
+  // 데이터를 서버에 추가하는 함수
+  const postData = async()=> {
+
+    const data = modalInput;
+
+    try{
+      const response = await axios.post(`${server}`, data);
+      console.log(response.data);
+      navigate('/list');
+    }
+    catch(error){
+      console.error(error);
+    }
+  }
+
+  const backList = () =>{
+    resetInput()
+    navigate('/list')
+  }
+
   return (
     <div>
       <div className="container">
         <h2>Membership Management {mode === "add" ? "등록" : "수정"}</h2>
+        {mode ==="edit"?<p>수정된 횟수: {ref.current}</p>: null}
 
         {/* 이름 입력 필드 */}
         <div className="input-group mb-3">
@@ -135,20 +143,23 @@ function Update({
         </div>
 
         {/* 확인 버튼 */}
+      { mode==="add"?
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => (mode === "add" ? postData() : updateData(selectId))}
+          onClick={postData}
+          style={{marginRight:"10px"}}
         >
-          {mode === "add" ? "회원 등록" : "회원 수정"}
+          회원 등록
         </button>
+        :null}
 
         {/* 취소 버튼 */}
         <button
           type="button"
           className="btn btn-secondary"
-          onClick={resetInput}
-          style={{marginLeft:"10px"}}
+          onClick={backList}
+          
         >
           취소
         </button>
