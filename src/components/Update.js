@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 function Update({    
   mode,
-  modalInput,
-  setModalInput,
-  selectId,
+  selectedData, 
+  setSelectedDate,
   server}
 ){
 
@@ -20,7 +19,8 @@ function Update({
     const phoneNumberRef = useRef(null); 
 
   function resetInput(){
-    setModalInput({
+    setSelectedDate({
+      id: "",
       name: "",
       age: "",
       job: "",
@@ -28,28 +28,28 @@ function Update({
     });
   }
 
-  const validateInputs = () => { // 수정
-    if (!nameRef.current.value.trim()) { // 수정
-      alert("이름을 입력하세요."); // 수정
-      nameRef.current.focus(); // 수정
-      return false; // 수정
+  const validateInputs = () => { 
+    if (!nameRef.current.value.trim()) { 
+      alert("이름을 입력하세요."); 
+      nameRef.current.focus(); 
+      return false; 
     }
-    if (!ageRef.current.value.trim()) { // 수정
-      alert("유효한 나이를 입력하세요."); // 수정
-      ageRef.current.focus(); // 수정
-      return false; // 수정
+    if (!ageRef.current.value.trim()) { 
+      alert("유효한 나이를 입력하세요."); 
+      ageRef.current.focus(); 
+      return false; 
     }
-    if (!jobRef.current.value.trim()) { // 수정
-      alert("직업을 입력하세요."); // 수정
-      jobRef.current.focus(); // 수정
-      return false; // 수정
+    if (!jobRef.current.value.trim()) { 
+      alert("직업을 입력하세요."); 
+      jobRef.current.focus();
+      return false; 
     }
-    if (!phoneNumberRef.current.value.trim()) { // 수정
-      alert("유효한 전화번호를 입력하세요. (숫자만 입력, 10~11자리)"); // 수정
-      phoneNumberRef.current.focus(); // 수정
-      return false; // 수정
+    if (!phoneNumberRef.current.value.trim()) { 
+      alert("유효한 전화번호를 입력하세요. (숫자만 입력, 10~11자리)"); 
+      phoneNumberRef.current.focus(); 
+      return false; 
     }
-    return true; // 수정
+    return true; 
   };
 
   // 데이터 수정하는 함수
@@ -79,13 +79,13 @@ function Update({
   }
 
   const handleModalInput = (e) => {
-    setModalInput({
-      ...modalInput,
+    setSelectedDate({
+      ...selectedData,
       [e.target.name]: e.target.value
     });
-    console.log("id", selectId)
-    if(selectId){
-      updateData(selectId)
+    console.log("id", selectedData.id)
+    if(selectedData.id){
+      updateData(selectedData.id)
       ref.current = ref.current+1;
     }
 
@@ -95,7 +95,7 @@ function Update({
   const postData = async()=> {
     if (!validateInputs()) return;
 
-    const data = modalInput;
+    const data = selectedData;
 
     try{
       const response = await axios.post(`${server}`, data);
@@ -128,7 +128,7 @@ function Update({
             name="name"
             ref={nameRef} // 수정
             onChange={handleModalInput}
-            value={modalInput.name || ""}
+            value={selectedData.name || ""}
             aria-label="이름"
             aria-describedby="name-input-group"
           />
@@ -144,7 +144,7 @@ function Update({
             name="age"
             ref={ageRef} // 수정
             onChange={handleModalInput}
-            value={modalInput.age || ""}
+            value={selectedData.age || ""}
             aria-label="나이"
             aria-describedby="age-input-group"
           />
@@ -160,7 +160,7 @@ function Update({
             name="job"
             ref={jobRef} // 수정
             onChange={handleModalInput}
-            value={modalInput.job || ""}
+            value={selectedData.job || ""}
             aria-label="직업"
             aria-describedby="job-input-group"
           />
@@ -176,7 +176,7 @@ function Update({
             name="phoneNumber"
             ref={phoneNumberRef} // 수정
             onChange={handleModalInput}
-            value={modalInput.phoneNumber || ""}
+            value={selectedData.phoneNumber || ""}
             aria-label="전화번호"
             aria-describedby="phoneNumber-input-group"
           />
