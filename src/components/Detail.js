@@ -34,11 +34,16 @@ function Detail({selectedData, setSelectedDate, server}){
     }
   }
 
+  const backList = () =>{
+    resetInput();
+    navigate('/list')
+  }
+
   return(
     <div>
       <h2>Membership Management</h2>
       <button type="button" className="btn btn-primary" style={{marginRight:"10px", marginLeft:"30px"}}
-      onClick={()=>navigate('/list')} >
+      onClick={backList} >
       회원 LIST
       </button>
       <button onClick={()=>deleteData(selectedData.id)}className="btn btn-danger">회원 DELETE</button>

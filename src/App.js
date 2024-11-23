@@ -9,15 +9,9 @@ import { useState } from 'react';
 function App() {
 
   const server = "https://672818e6270bd0b975545367.mockapi.io/api/v1/user"
+
   const [mockData, setMockData] =useState([]);
   const [mode, setMode] =useState('add');
-
-  const [modalInput, setModalInput] = useState({
-    name: "",
-    age: "",
-    job: "",
-    phoneNumber: ""
-  })
 
   const [selectedData, setSelectedDate] = useState({
     id: "",
@@ -27,8 +21,6 @@ function App() {
     phoneNumber: ""
   })
 
-  const [selectId, setSelectID] = useState("");
-
   return (
     <Routes>
       <Route path="/" element={<List 
@@ -36,9 +28,7 @@ function App() {
         setMockData={setMockData}
         mode={mode}
         setMode={setMode}
-        modalInput={modalInput}
-        setModalInput={setModalInput}
-        setSelectID={setSelectID}
+        selectedData={selectedData}
         setSelectedDate={setSelectedDate}
         server={server}
       />}></Route>
@@ -47,9 +37,7 @@ function App() {
         setMockData={setMockData}
         mode={mode}
         setMode={setMode}
-        modalInput={modalInput}
-        setModalInput={setModalInput}
-        setSelectID={setSelectID}
+        selectedData={selectedData}
         setSelectedDate={setSelectedDate}
         server={server}
       />}></Route>
@@ -61,9 +49,8 @@ function App() {
         />}></Route>
       <Route path="/update" element={<Update
         mode={mode}
-        modalInput={modalInput}
-        setModalInput={setModalInput}
-        selectId={selectId}
+        setSelectedDate={setSelectedDate}
+        selectedData={selectedData}
         server={server}
       />}></Route>
     </Routes>

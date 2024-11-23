@@ -7,9 +7,7 @@ function List({
   mockData,
   setMockData,
   setMode,
-  modalInput,
-  setModalInput,
-  setSelectID,
+  selectedData,
   setSelectedDate,
   server}){
 
@@ -34,10 +32,10 @@ function List({
     
     setMode('edit');
     const {id, name, age, job, phoneNumber} = item;
-    setSelectID(id);
+    // setSelectID(id);
 
-    setModalInput({
-      ...modalInput,
+    setSelectedDate({
+      id: id,
       name: name,
       age:age,
       job: job,
